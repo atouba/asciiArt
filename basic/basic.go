@@ -13,7 +13,7 @@ func Basic(str, banner string) {
 		return
 	}
 
-	inline_strings := piscine.Split(str, "\n")
+	inline_strings := piscine.Split(str, "\\n")
 	lines := piscine.Split(string(chars), "\n")
 	for i_str, inline_str := range inline_strings {
 		for i_octal_line := range 8 {
@@ -30,6 +30,5 @@ func Basic(str, banner string) {
 			fmt.Println()
 		}
 	}
-
-	// fmt.Println(len(lines))
 }
+
