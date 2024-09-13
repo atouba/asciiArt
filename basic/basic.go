@@ -27,14 +27,18 @@ func printBasic(str, banner string) {
 
 func Basic(str, banner string) {
 
-  for i := 0; i < len(str); {
-    endStringIndex := piscine.Index(str[i: ], "\\n")
-    if endStringIndex == -1 {
-      endStringIndex = len(str)
+  i := 0
+  for ; i + 1 < len(str) && str[i: i + 2] == "\\n"; i += 2 {
+    fmt.Println()
+  }
+  for ; i < len(str); {
+    stringLength := piscine.Index(str[i: ], "\\n")
+    if stringLength == -1 {
+      stringLength = len(str[i:])
     }
-    printBasic(str[i: endStringIndex], banner)
+    printBasic(str[i: i+stringLength], banner)
     // adding the length of the printed string
-    i = endStringIndex
+    i += stringLength
     for ; i + 1 < len(str) && str[i: i + 2] == "\\n"; i += 2 {
       fmt.Println()
     }
