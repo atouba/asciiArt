@@ -7,6 +7,13 @@ import (
 	"github.com/atouba/piscine"
 )
 
+type inputContent struct {
+  str string
+  i int           // str's iterator index
+  newLineI int    // index of the nearest new line
+  subStr string
+}
+
 var Colors = map[string]string {
   "Reset": "\033[0m",
   "red":  "\033[31m",
@@ -19,20 +26,21 @@ var Colors = map[string]string {
   "white": "\033[97m",
 }
 
-func printMixedColor(str, subStr, color string) {
+func printMixedColor(text *inputContent, color string) {
 	asciiArtChars, err := os.ReadFile("./banners/standard.txt")
 	if err != nil {
     log.Fatal("error reading banner file")
 	}
 	lines := piscine.Split(string(asciiArtChars), "\n")
+  str := text.str[text.i: text.i + text.newLineI]
   for iLine := range 8 {
     for i, char := range str {
       if char == ' ' {
         fmt.Print(lines[(int(char) - 32) * 8 + iLine][0:4])
       } else {
-        if charInSubStr(str, i, subStr) { fmt.Print(Colors[color]) }
+        if charInSubStr(text.str, text.i + i, text.subStr) { fmt.Print(Colors[color]) }
         fmt.Print(lines[(int(char) - 32) * 8 + iLine])
-        if charInSubStr(str, i, subStr) { fmt.Print(Colors["Reset"]) }
+        if charInSubStr(text.str, text.i + i, text.subStr) { fmt.Print(Colors["Reset"]) }
       }
     }
     fmt.Println()
@@ -40,15 +48,18 @@ func printMixedColor(str, subStr, color string) {
 }
 
 func Color(str, subStr, color, banner string) {
-  i := 0
-  for ; i < len(str); {
-    newLineIndex := index(str[i: ], "\\n")
-    if newLineIndex == 0 {
+  text := inputContent{}
+  text.str = str
+  text.subStr = subStr
+  text.i = 0
+  for ; text.i < len(text.str); {
+    text.newLineI = index(text.str[text.i: ], "\\n")
+    if text.newLineI == 0 {
       fmt.Println()
-      i += 2
+      text.i += 2
     } else {
-      printMixedColor(str[i: i+newLineIndex], subStr, color)
-      i += newLineIndex
+      printMixedColor(&text, color)
+      text.i += text.newLineI
     }
 	}
 }
@@ -67,6 +78,8 @@ func charInSubStr(str string, i int, subStr string) bool {
   for ; subStrIndex != -1;  {
     if i >= strIndex && i < strIndex + len(subStr) {
       return true
+    } else if i < strIndex {
+      return false
     }
     subStrIndex = piscine.Index(str[strIndex+1: ], subStr)+1
     if subStrIndex == 0 { break }
