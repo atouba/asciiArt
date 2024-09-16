@@ -1,5 +1,9 @@
 package main
 
+// When there is --output flag, no terminal size checking
+// should be done
+// The characters are distorted when there are extra spaces
+
 import (
 	"flag"
 	"fmt"
@@ -14,6 +18,7 @@ import (
 func main() {
 	align := flag.String("align", "", "specify alignment (left, center, right or justify)")
 	clr := flag.String("color", "", "specify color (e.g. red, green, cyan etc.)")
+	outputFileName := flag.String("output", "", "specify output file name")
 	flag.Parse()
 
 	if *align != "left" && *align != "center" && *align != "right" && *align != "justify" && *align != "" {
@@ -52,6 +57,13 @@ func main() {
 	}
 	output = alignement.AlignLCR(output, *align)
 
-	fmt.Println(output)
+  // Output flag can be empty, should error. This condition should check if it wasn't typed at all.
+  if *outputFileName != "" {
+    f, err := os.OpenFile(*outputFileName, os.O_CREATE | os.O_WRONLY | os.O_TRUNC, 0644)
+    if err != nil { log.Fatal(err) }
+    f.WriteString(output)
+  } else {
+    fmt.Println(output)
+  }
 }
 
