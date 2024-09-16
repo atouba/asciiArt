@@ -9,7 +9,6 @@ import (
 	"01.gritlab.ax/git/atouba/ascii-art/alignement"
 	"01.gritlab.ax/git/atouba/ascii-art/basic"
 	"01.gritlab.ax/git/atouba/ascii-art/color"
-	//"github.com/atouba/piscine"
 )
 
 func main() {
@@ -23,7 +22,6 @@ func main() {
 	}
 
 	args := flag.Args()
-
 	argsLength := len(args)
 
 	if argsLength == 0 || argsLength > 3 {
@@ -38,19 +36,11 @@ func main() {
 	output := ""
 
 	if argsLength == 1 && *clr == "" {
-		//basic.Basic(args[0], "standard")
-		output = basic.Basic(args[0], "", "none", "standard", *align)
-
-		//} else if argsLength == 2 && piscine.Index(args[0], "--color=") == -1 {
+		output = basic.Basic(args[0], "", *clr, "standard", *align)
 	} else if argsLength == 2 && *clr == "" {
-		//basic.Basic(args[0], args[1])
-		output = basic.Basic(args[0], "", "none", args[1], *align)
+		output = basic.Basic(args[0], "", *clr, args[1], *align)
 	} else {
-
-		//specifiedColor := args[0][8:]
 		specifiedColor := *clr
-
-		//if argsLength == 2 {
 		if argsLength == 1 {
 			args = append(args, args[0]) // the whole string as substring to color
 		}
@@ -58,15 +48,10 @@ func main() {
 		if !ok {
 			log.Fatal("error: color doesn't exist")
 		}
-
-		//color.Color(args[2], args[1], specifiedColor, "standard")
-		// output = color.Color(args[1], args[0], specifiedColor, "standard")
     output = basic.Basic(args[1], args[0], specifiedColor, "standard", *align)
 	}
-
-	// align the text left, center or right
 	output = alignement.AlignLCR(output, *align)
 
 	fmt.Println(output)
 }
-// func Basic(str, subStr, colorFl, banner, alignFlag string) string {
+
