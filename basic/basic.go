@@ -4,10 +4,11 @@ import (
 	"fmt"
 	"os"
 
+	"01.gritlab.ax/git/atouba/ascii-art/alignement"
 	"github.com/atouba/piscine"
 )
 
-func printBasic(str, banner string) string {
+func printBasic(str, banner, alignFlag string) string {
 	asciiArtChars, err := os.ReadFile("./banners/" + banner + ".txt")
 	if err != nil {
 		fmt.Println("Error reading banner file")
@@ -17,24 +18,28 @@ func printBasic(str, banner string) string {
 	out := ""
 
 	lines := piscine.Split(string(asciiArtChars), "\n")
+  leftSpacesLn, rightSpacesLn, insideSpacesLn := alignement.SpacesCount(str, alignFlag, banner)
 	for iLine := range 8 {
+    out += fmt.Sprint(alignement.SpacesString(leftSpacesLn))
 		for _, char := range str {
 			if char == ' ' {
-				//fmt.Print(lines[(int(char) - 32) * 8 + iLine][0:4])
-				out += fmt.Sprint(lines[(int(char)-32)*8+iLine])
+        if insideSpacesLn > 0 {
+          out += fmt.Sprint(alignement.SpacesString(insideSpacesLn))
+        } else {
+          out += fmt.Sprint(lines[(int(char)-32)*8+iLine])
+        }
 			} else {
-				//fmt.Print(lines[(int(char) - 32) * 8 + iLine])
 				out += fmt.Sprint(lines[(int(char)-32)*8+iLine])
 			}
 		}
-		//fmt.Println()
+    out += fmt.Sprint(alignement.SpacesString(rightSpacesLn))
 		out += fmt.Sprint("\n")
 	}
 
 	return out
 }
 
-func Basic(str, banner string) string {
+func Basic(str, banner, alignFlag string) string {
 
 	out := ""
 
@@ -49,7 +54,7 @@ func Basic(str, banner string) string {
 			stringLength = len(str[i:])
 		}
 		//printBasic(str[i:i+stringLength], banner)
-		out += printBasic(str[i:i+stringLength], banner)
+		out += printBasic(str[i:i+stringLength], banner, alignFlag)
 
 		// adding the length of the printed string
 		i += stringLength

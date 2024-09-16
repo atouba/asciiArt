@@ -41,12 +41,12 @@ func main() {
 
 	if argsLength == 1 && *clr == "" {
 		//basic.Basic(args[0], "standard")
-		output = basic.Basic(args[0], "standard")
+		output = basic.Basic(args[0], "standard", *align)
 
 		//} else if argsLength == 2 && piscine.Index(args[0], "--color=") == -1 {
 	} else if argsLength == 2 && *clr == "" {
 		//basic.Basic(args[0], args[1])
-		output = basic.Basic(args[0], args[1])
+		output = basic.Basic(args[0], args[1], *align)
 	} else {
 
 		//specifiedColor := args[0][8:]
