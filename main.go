@@ -23,10 +23,8 @@ func main() {
 	}
 
 	args := flag.Args()
-	//args := os.Args[1:]
 
 	argsLength := len(args)
-	//fmt.Println(args, argsLength)
 
 	if argsLength == 0 || argsLength > 3 {
 		log.Fatal(`Usage:
@@ -41,12 +39,12 @@ func main() {
 
 	if argsLength == 1 && *clr == "" {
 		//basic.Basic(args[0], "standard")
-		output = basic.Basic(args[0], "standard", *align)
+		output = basic.Basic(args[0], "", "none", "standard", *align)
 
 		//} else if argsLength == 2 && piscine.Index(args[0], "--color=") == -1 {
 	} else if argsLength == 2 && *clr == "" {
 		//basic.Basic(args[0], args[1])
-		output = basic.Basic(args[0], args[1], *align)
+		output = basic.Basic(args[0], "", "none", args[1], *align)
 	} else {
 
 		//specifiedColor := args[0][8:]
@@ -62,7 +60,8 @@ func main() {
 		}
 
 		//color.Color(args[2], args[1], specifiedColor, "standard")
-		output = color.Color(args[1], args[0], specifiedColor, "standard")
+		// output = color.Color(args[1], args[0], specifiedColor, "standard")
+    output = basic.Basic(args[1], args[0], specifiedColor, "standard", *align)
 	}
 
 	// align the text left, center or right
@@ -70,3 +69,4 @@ func main() {
 
 	fmt.Println(output)
 }
+// func Basic(str, subStr, colorFl, banner, alignFlag string) string {
