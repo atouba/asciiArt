@@ -16,6 +16,15 @@ type inputContent struct {
 	subStr   string
 }
 
+func clearCarReturns(s string) (out string) {
+	for _, r := range s {
+		if r != 13 {
+			out += string(r)
+		}
+	}
+	return
+}
+
 func printBasic(text *inputContent, banner, alignFlag, colorFl string) string {
 	asciiArtChars, err := os.ReadFile("./banners/" + banner + ".txt")
 	if err != nil {
@@ -25,24 +34,30 @@ func printBasic(text *inputContent, banner, alignFlag, colorFl string) string {
 
 	out := ""
 
-	lines := piscine.Split(string(asciiArtChars), "\n")
-  leftSpacesLn, rightSpacesLn, insideSpacesLn := alignement.SpacesCount(text.str[text.i: text.i+text.newLineI], alignFlag, banner)
+	toLines := clearCarReturns(string(asciiArtChars))
+	lines := piscine.Split(toLines, "\n")
+	leftSpacesLn, rightSpacesLn, insideSpacesLn := alignement.SpacesCount(text.str[text.i:text.i+text.newLineI], alignFlag, banner)
 	for iLine := range 8 {
-    out += fmt.Sprint(alignement.SpacesString(leftSpacesLn))
-    for i, char := range text.str[text.i: text.i+text.newLineI] {
+		out += fmt.Sprint(alignement.SpacesString(leftSpacesLn))
+		for i, char := range text.str[text.i : text.i+text.newLineI] {
+			toAdd := lines[(int(char)-32)*8+iLine]
 			if char == ' ' {
-        if insideSpacesLn > 0 {
-          out += fmt.Sprint(alignement.SpacesString(insideSpacesLn))
-        } else {
-          out += fmt.Sprint(lines[(int(char)-32)*8+iLine])
-        }
+				if insideSpacesLn > 0 {
+					out += fmt.Sprint(alignement.SpacesString(insideSpacesLn))
+				} else {
+					out += fmt.Sprint(toAdd)
+				}
 			} else {
-				if color.CharInSubStr(text.str, text.i+i, text.subStr) { out += fmt.Sprint(color.Colors[colorFl]) }
-				out += fmt.Sprint(lines[(int(char)-32)*8+iLine])
-				if color.CharInSubStr(text.str, text.i+i, text.subStr) { out += fmt.Sprint(color.Colors["Reset"]) }
+				if color.CharInSubStr(text.str, text.i+i, text.subStr) {
+					out += fmt.Sprint(color.Colors[colorFl])
+				}
+				out += fmt.Sprint(toAdd)
+				if color.CharInSubStr(text.str, text.i+i, text.subStr) {
+					out += fmt.Sprint(color.Colors["Reset"])
+				}
 			}
 		}
-    out += fmt.Sprint(alignement.SpacesString(rightSpacesLn))
+		out += fmt.Sprint(alignement.SpacesString(rightSpacesLn))
 		out += fmt.Sprint("\n")
 	}
 
