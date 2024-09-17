@@ -13,12 +13,14 @@ import (
 	"01.gritlab.ax/git/atouba/ascii-art/alignement"
 	"01.gritlab.ax/git/atouba/ascii-art/basic"
 	"01.gritlab.ax/git/atouba/ascii-art/color"
+	"01.gritlab.ax/git/atouba/ascii-art/reverse"
 )
 
 func main() {
 	align := flag.String("align", "", "specify alignment (left, center, right or justify)")
 	clr := flag.String("color", "", "specify color (e.g. red, green, cyan etc.)")
 	outputFileName := flag.String("output", "", "specify output file name")
+	reverseFileName := flag.String("reverse", "", "specify name of the file that contains ascii art chars to be reversed")
 	flag.Parse()
 
 	if *align != "left" && *align != "center" && *align != "right" && *align != "justify" && *align != "" {
@@ -29,7 +31,7 @@ func main() {
 	args := flag.Args()
 	argsLength := len(args)
 
-	if argsLength == 0 || argsLength > 3 {
+	if (argsLength == 0 && *reverseFileName == "") || argsLength > 3 {
 		log.Fatal(`Usage:
       ./ascii_art <string>
       or
@@ -40,6 +42,10 @@ func main() {
 
 	output := ""
 
+  if *reverseFileName != "" {
+    reverse.Reverse(*reverseFileName)
+    return
+  }
 	if argsLength == 1 && *clr == "" {
 		output = basic.Basic(args[0], "", *clr, "standard", *align)
 	} else if argsLength == 2 && *clr == "" {
