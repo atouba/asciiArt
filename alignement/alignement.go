@@ -80,6 +80,7 @@ func AsciiArtLength(str string, f func (rune) bool, style string) int {
 
 	lines := piscine.Split(string(asciiArtChars), "\n")
   for _, char := range str {
+    if int(char) > 126 { log.Fatal("Bad Input") }
     if f(char) {
       count += len(lines[(int(char)-32)*8])
     }
