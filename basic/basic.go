@@ -29,7 +29,7 @@ func printBasic(text *inputContent, banner, alignFlag, colorFl string) string {
   leftSpacesLn, rightSpacesLn, insideSpacesLn := alignement.SpacesCount(text.str, alignFlag, banner)
 	for iLine := range 8 {
     out += fmt.Sprint(alignement.SpacesString(leftSpacesLn))
-		for i, char := range text.str {
+    for i, char := range text.str[text.i: text.i+text.newLineI] {
 			if char == ' ' {
         if insideSpacesLn > 0 {
           out += fmt.Sprint(alignement.SpacesString(insideSpacesLn))
@@ -58,7 +58,7 @@ func Basic(str, subStr, colorFl, banner, alignFlag string) string {
 	for text.i < len(text.str) {
 		text.newLineI = color.Index(text.str[text.i:], "\\n")
 		if text.newLineI == 0 {
-			out += fmt.Sprint("\n")
+			out += fmt.Sprintln()
 			text.i += 2
 		} else {
 			out += printBasic(&text, banner, alignFlag, colorFl)
