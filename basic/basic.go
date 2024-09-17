@@ -26,7 +26,7 @@ func printBasic(text *inputContent, banner, alignFlag, colorFl string) string {
 	out := ""
 
 	lines := piscine.Split(string(asciiArtChars), "\n")
-  leftSpacesLn, rightSpacesLn, insideSpacesLn := alignement.SpacesCount(text.str, alignFlag, banner)
+  leftSpacesLn, rightSpacesLn, insideSpacesLn := alignement.SpacesCount(text.str[text.i: text.i+text.newLineI], alignFlag, banner)
 	for iLine := range 8 {
     out += fmt.Sprint(alignement.SpacesString(leftSpacesLn))
     for i, char := range text.str[text.i: text.i+text.newLineI] {
