@@ -39,6 +39,11 @@ func isSpace(lines []string, column_index int) bool {
 	return false
 }
 
+func isEndNewLine(asciiArt string) bool {
+  // no need to check the last char as well, becasue it'll always be a new line
+  return asciiArt[len(asciiArt) - 2] == '\n'
+}
+
 func asciiArtCharLength(lines []string, start_index int) int {
 	length := 0
 
@@ -68,9 +73,14 @@ func Reverse(filename string) {
 	}
 	lines := piscine.Split(string(ascii_art), "\n")
   lines = lines[: len(lines)-1]
-	for column_i := 0; column_i < len(lines[0]); column_i += asciiArtCharLength(lines, column_i) {
-		printRegularChar(lines, column_i)
-	}
+
+  for startLines := 0; startLines < len(lines); startLines += 8 {
+    for column_i := 0; column_i < len(lines[startLines: startLines+8][0]); column_i += asciiArtCharLength(lines[startLines: startLines+8], column_i) {
+      printRegularChar(lines[startLines: startLines+8], column_i)
+    }
+    if startLines + 8 < len(lines) { fmt.Println() }
+  }
+  if isEndNewLine(string(ascii_art)) { fmt.Println() }
 }
 
 func printRegularChar(lines []string, column_index int) {
