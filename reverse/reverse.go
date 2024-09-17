@@ -20,7 +20,7 @@ func index(str string, char rune, start_index int) int {
 }
 
 func isVerticallyEqual(lines *[]string, column_index int) bool {
-	lines_n := len(*lines) - 1 // minus 1 so when iterating we don't reach the last line
+	lines_n := len(*lines) - 1 // minus 1 so when iterating we don't avoid out of range error
 
 	for row := 0; row < lines_n; row++ {
 		if (*lines)[row][column_index] != (*lines)[row + 1][column_index] {
@@ -39,7 +39,6 @@ func isSpace(lines *[]string, column_index int) bool {
 	return false
 }
 
-// should handle the case when there are spaces
 func asciiArtCharLength(lines *[]string, start_index int) int {
 	length := 0
 
@@ -61,14 +60,7 @@ func asciiArtCharLength(lines *[]string, start_index int) int {
 	return length + 1
 }
 
-// always assuming inline strings
 func Reverse(filename string) {
-// 	if len(filename) <= 10 || piscine.Compare(filename[0:10], "--reverse=") != 0 {
-// 		fmt.Println(`Usage: go run . [OPTION]
-
-// EX: go run . --reverse=<fileName>`)
-// 		return
-// 	}
 	ascii_art, err := os.ReadFile(filename)
 	if err != nil {
 		fmt.Println("error reading file")
@@ -77,7 +69,6 @@ func Reverse(filename string) {
 	lines := piscine.Split(string(ascii_art), "\n")
   lines = lines[: len(lines)-1]
 	for column_i := 0; column_i < len(lines[0]); column_i += asciiArtCharLength(&lines, column_i) {
-		// presumably lines always consist of exactly 8 lines
 		printRegularChar(&lines, column_i)
 	}
 	fmt.Println()
