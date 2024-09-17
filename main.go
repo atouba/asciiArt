@@ -63,7 +63,7 @@ func main() {
     if err != nil { log.Fatal(err) }
     f.WriteString(output)
   } else {
-    fmt.Println(output)
+    fmt.Print(output)
   }
 }
 
