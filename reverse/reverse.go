@@ -71,7 +71,6 @@ func Reverse(filename string) {
 	for column_i := 0; column_i < len(lines[0]); column_i += asciiArtCharLength(lines, column_i) {
 		printRegularChar(lines, column_i)
 	}
-	fmt.Println()
 }
 
 func printRegularChar(lines []string, column_index int) {
