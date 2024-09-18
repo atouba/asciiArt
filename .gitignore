@@ -1,6 +1,6 @@
 ascii_art
 
-tes*.txt
-banner.txt
+*.txt
+!banners/*.txt
 
 .DS_Store
