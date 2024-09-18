@@ -92,7 +92,7 @@ func AsciiArtLength(str string, f func(rune) bool, style string) int {
 	toLines := ClearCarReturns(string(asciiArtChars))
 	lines := piscine.Split(toLines, "\n")
 	for _, char := range str {
-		if int(char) > 126 {
+		if int(char) < 32 || int(char) > 126 {
 			log.Fatal("Bad Input")
 		}
 		if f(char) {
@@ -107,10 +107,7 @@ func AsciiArtLength(str string, f func(rune) bool, style string) int {
 func SpacesCount(str, alignFlag string, style string) (int, int, int) {
 	var f1 func(rune) bool = func(c rune) bool { return true }
 	var f2 func(rune) bool = func(c rune) bool {
-		if c != ' ' {
-			return true
-		}
-		return false
+		return c != ' '
 	}
 	// spaces to be added after str (even if it has spaces). Used for anything but justify
 	subtract := getTermWidth() - AsciiArtLength(str, f1, style)

@@ -8,7 +8,6 @@ import (
 	"github.com/atouba/piscine"
 )
 
-
 var Colors = map[string]string{
 	"Reset":  "\033[0m",
 	"red":    "\033[31m",
@@ -89,7 +88,9 @@ func Index(str, subStr string) int {
 }
 
 func CharInSubStr(str string, i int, subStr string) bool {
-  if subStr == "" { return false }
+	if subStr == "" {
+		return false
+	}
 	subStrIndex := piscine.Index(str, subStr)
 	strIndex := subStrIndex
 	for subStrIndex != -1 {
