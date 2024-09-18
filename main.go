@@ -1,9 +1,5 @@
 package main
 
-// When there is --output flag, no terminal size checking
-// should be done
-// The characters are distorted when there are extra spaces
-
 import (
 	"flag"
 	"fmt"
@@ -41,6 +37,9 @@ func main() {
 	}
 
 	output := ""
+
+  if *outputFileName != "" && (*clr != "" || *reverseFileName != "" || *align != "") { log.Fatal("flags can't be combined")}
+  if *reverseFileName != "" && (*clr != "" || *align != "") { log.Fatal("flags can't be combined")}
 
 	if *reverseFileName != "" {
 		reverse.Reverse(*reverseFileName)
