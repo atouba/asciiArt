@@ -16,6 +16,24 @@ type inputContent struct {
 	subStr   string
 }
 
+func isJustSpacesBefore(str string, i int) bool {
+  for ; i >= 0; i-- {
+    if str[i] != ' ' {
+      return false
+    }
+  }
+  return true
+}
+
+func isJustSpacesAfter(str string, i int) bool {
+  for ; i < len(str); i++ {
+    if str[i] != ' ' {
+      return false
+    }
+  }
+  return true
+}
+
 func printBasic(text *inputContent, banner, alignFlag, colorFl string) string {
 	asciiArtChars, err := os.ReadFile("./banners/" + banner + ".txt")
 	if err != nil {
@@ -26,13 +44,16 @@ func printBasic(text *inputContent, banner, alignFlag, colorFl string) string {
 	out := ""
 
 	lines := piscine.Split(alignement.ClearCarReturns(string(asciiArtChars)), "\n")
-	leftSpacesLn, rightSpacesLn, insideSpacesLn := alignement.SpacesCount(text.str[text.i:text.i+text.newLineI], alignFlag, banner)
+  inLineStr := text.str[text.i : text.i+text.newLineI]
+	leftSpacesLn, rightSpacesLn, insideSpacesLn := alignement.SpacesCount(inLineStr, alignFlag, banner)
 	for iLine := range 8 {
 		out += fmt.Sprint(alignement.SpacesString(leftSpacesLn))
-		for i, char := range text.str[text.i : text.i+text.newLineI] {
+		for i, char := range inLineStr {
 			toAdd := lines[(int(char)-32)*8+iLine]
 			if char == ' ' {
 				if insideSpacesLn > 0 {
+          if isJustSpacesBefore(inLineStr, i) || isJustSpacesAfter(inLineStr, i) ||
+            (i+1 < len(inLineStr) && inLineStr[i+1] == ' ') { continue }
 					out += fmt.Sprint(alignement.SpacesString(insideSpacesLn))
 				} else {
 					out += fmt.Sprint(toAdd)
