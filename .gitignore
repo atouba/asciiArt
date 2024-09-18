@@ -1,5 +1,6 @@
 ascii_art
 
-*.txt
+tes*.txt
+banner.txt
 
 .DS_Store
