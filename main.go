@@ -42,10 +42,10 @@ func main() {
 
 	output := ""
 
-  if *reverseFileName != "" {
-    reverse.Reverse(*reverseFileName)
-    return
-  }
+	if *reverseFileName != "" {
+		reverse.Reverse(*reverseFileName)
+		return
+	}
 	if argsLength == 1 && *clr == "" {
 		output = basic.Basic(args[0], "", *clr, "standard", *align)
 	} else if argsLength == 2 && *clr == "" {
@@ -59,17 +59,18 @@ func main() {
 		if !ok {
 			log.Fatal("error: color doesn't exist")
 		}
-    output = basic.Basic(args[1], args[0], specifiedColor, "standard", *align)
+		output = basic.Basic(args[1], args[0], specifiedColor, "standard", *align)
 	}
 	output = alignement.AlignLCR(output, *align)
 
-  // Output flag can be empty, should error. This condition should check if it wasn't typed at all.
-  if *outputFileName != "" {
-    f, err := os.OpenFile(*outputFileName, os.O_CREATE | os.O_WRONLY | os.O_TRUNC, 0644)
-    if err != nil { log.Fatal(err) }
-    f.WriteString(output)
-  } else {
-    fmt.Print(output)
-  }
+	// Output flag can be empty, should error. This condition should check if it wasn't typed at all.
+	if *outputFileName != "" {
+		f, err := os.OpenFile(*outputFileName, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0644)
+		if err != nil {
+			log.Fatal(err)
+		}
+		f.WriteString(output)
+	} else {
+		fmt.Print(output)
+	}
 }
-
