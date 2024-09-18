@@ -67,6 +67,7 @@ func asciiArtCharLength(lines []string, start_index int) int {
 			break
 		}
 	}
+  if length == len(lines[0][start_index: ]) { return length }
 	return length + 1
 }
 
@@ -116,4 +117,5 @@ func printRegularChar(lines []string, column_index int) {
 			return
 		}
 	}
+  log.Fatal("Bad Input: ascii art characters to be reversed")
 }
