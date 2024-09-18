@@ -121,6 +121,7 @@ func SpacesCount(str, alignFlag string, style string) (int, int, int) {
 	} else if alignFlag == "right" {
 		return subtract, 0, 0
 	} else if alignFlag == "center" {
+    if subtract % 2 == 0 { subtract-- }
 		return subtract / 2, subtract / 2, 0
 	} else if alignFlag == "justify" {
 		countWords := len(strings.Fields(str))
