@@ -67,78 +67,93 @@ func AlignLCR(s, a string) string {
 	return strings.Join(nuRows, "\n")
 }
 
+// clearCarReturns returns the input string without carriage returns
+func ClearCarReturns(s string) (out string) {
+	for _, r := range s {
+		if r != 13 {
+			out += string(r)
+		}
+	}
+	return
+}
+
 // ---------------------------------------------------------------------------
 
-func AsciiArtLength(str string, f func (rune) bool, style string) int {
+func AsciiArtLength(str string, f func(rune) bool, style string) int {
 	asciiArtChars, err := os.ReadFile("./banners/" + style + ".txt")
 	if err != nil {
 		fmt.Println("Error reading banner file")
-    return 0
+		return 0
 	}
 
 	count := 0
 
-	lines := piscine.Split(string(asciiArtChars), "\n")
-  for _, char := range str {
-    if int(char) > 126 { log.Fatal("Bad Input") }
-    if f(char) {
-      count += len(lines[(int(char)-32)*8])
-    }
-  }
+	//lines := piscine.Split(string(asciiArtChars), "\n")
+	toLines := ClearCarReturns(string(asciiArtChars))
+	lines := piscine.Split(toLines, "\n")
+	for _, char := range str {
+		if int(char) > 126 {
+			log.Fatal("Bad Input")
+		}
+		if f(char) {
+			count += len(lines[(int(char)-32)*8])
+		}
+	}
 
 	return count
 }
 
 // Spaces that will be added in alignement
 func SpacesCount(str, alignFlag string, style string) (int, int, int) {
-  var f1 func (rune) bool = func (c rune) bool { return true }
-  var f2 func (rune) bool = func (c rune) bool {
-    if c != ' ' { return true }
-    return false
-  }
-  // spaces to be added after str (even if it has spaces). Used for anything but justify
-  subtract := getTermWidth() - AsciiArtLength(str, f1, style)
-  // total nbr of spaces left after writing the ascii art chars. Used just for justify
-  subtractChars := getTermWidth() - AsciiArtLength(str, f2, style)
-  if subtract < 0 || subtractChars < 0 {
-    log.Fatal("characters don't fit in the terminal width size")
-  }
-  if alignFlag == "left" {
-    return 0, subtract, 0
-  } else if alignFlag == "right" {
-    return subtract, 0, 0
-  } else if alignFlag == "center" {
-    return subtract/2, subtract/2, 0
-  } else if alignFlag == "justify" {
-    countWords := len(strings.Fields(str))
-    if  countWords <= 1 {
-      countWords = 1
-    } else {
-      countWords--
-    }
-    return 0, 0, subtractChars / countWords
-  }
-  return 0, 0, 0
+	var f1 func(rune) bool = func(c rune) bool { return true }
+	var f2 func(rune) bool = func(c rune) bool {
+		if c != ' ' {
+			return true
+		}
+		return false
+	}
+	// spaces to be added after str (even if it has spaces). Used for anything but justify
+	subtract := getTermWidth() - AsciiArtLength(str, f1, style)
+	// total nbr of spaces left after writing the ascii art chars. Used just for justify
+	subtractChars := getTermWidth() - AsciiArtLength(str, f2, style)
+	if subtract < 0 || subtractChars < 0 {
+		log.Fatal("characters don't fit in the terminal width size")
+	}
+	if alignFlag == "left" {
+		return 0, subtract, 0
+	} else if alignFlag == "right" {
+		return subtract, 0, 0
+	} else if alignFlag == "center" {
+		return subtract / 2, subtract / 2, 0
+	} else if alignFlag == "justify" {
+		countWords := len(strings.Fields(str))
+		if countWords <= 1 {
+			countWords = 1
+		} else {
+			countWords--
+		}
+		return 0, 0, subtractChars / countWords
+	}
+	return 0, 0, 0
 }
 
 // Returns n spaces string
 func SpacesString(n int) string {
-  s := ""
+	s := ""
 
-  for ;n > 0; n-- {
-    s += " "
-  }
-  return s
+	for ; n > 0; n-- {
+		s += " "
+	}
+	return s
 }
 
 func skipCharLength(str string, char rune) int {
-  count := 0
+	count := 0
 
-  for _, v := range(str) {
-    if v != char {
-      count++
-    }
-  }
-  return count
+	for _, v := range str {
+		if v != char {
+			count++
+		}
+	}
+	return count
 }
-

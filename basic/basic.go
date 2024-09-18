@@ -16,15 +16,6 @@ type inputContent struct {
 	subStr   string
 }
 
-func clearCarReturns(s string) (out string) {
-	for _, r := range s {
-		if r != 13 {
-			out += string(r)
-		}
-	}
-	return
-}
-
 func printBasic(text *inputContent, banner, alignFlag, colorFl string) string {
 	asciiArtChars, err := os.ReadFile("./banners/" + banner + ".txt")
 	if err != nil {
@@ -34,8 +25,7 @@ func printBasic(text *inputContent, banner, alignFlag, colorFl string) string {
 
 	out := ""
 
-	toLines := clearCarReturns(string(asciiArtChars))
-	lines := piscine.Split(toLines, "\n")
+	lines := piscine.Split(alignement.ClearCarReturns(string(asciiArtChars)), "\n")
 	leftSpacesLn, rightSpacesLn, insideSpacesLn := alignement.SpacesCount(text.str[text.i:text.i+text.newLineI], alignFlag, banner)
 	for iLine := range 8 {
 		out += fmt.Sprint(alignement.SpacesString(leftSpacesLn))
