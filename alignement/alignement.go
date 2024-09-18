@@ -113,7 +113,7 @@ func SpacesCount(str, alignFlag string, style string) (int, int, int) {
 	subtract := getTermWidth() - AsciiArtLength(str, f1, style)
 	// total nbr of spaces left after writing the ascii art chars. Used just for justify
 	subtractChars := getTermWidth() - AsciiArtLength(str, f2, style)
-	if subtract < 0 || subtractChars < 0 {
+	if (alignFlag != "justify" && subtract < 0) || (alignFlag == "justify" && subtractChars < 0) {
 		log.Fatal("characters don't fit in the terminal width size")
 	}
 	if alignFlag == "left" {
