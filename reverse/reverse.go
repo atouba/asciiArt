@@ -77,27 +77,28 @@ func Reverse(filename string) {
 		fmt.Println("error reading file")
 		return
 	}
+  output := ""
 	lines := piscine.Split(string(ascii_art), "\n")
 	lines = lines[:len(lines)-1]
 
 	for startLines := 0; startLines < len(lines); startLines += 8 {
 		for column_i := 0; column_i < len(lines[startLines : startLines+8][0]); column_i += asciiArtCharLength(lines[startLines:startLines+8], column_i) {
-			printRegularChar(lines[startLines:startLines+8], column_i)
+			output += string(printRegularChar(lines[startLines:startLines+8], column_i))
 		}
 		if startLines+8 < len(lines) {
-			fmt.Println()
+      output += "\n"
 		}
 	}
 	if isEndNewLine(string(ascii_art)) {
-		fmt.Println()
+    output += "\n"
 	}
+  fmt.Print(output)
 }
 
-func printRegularChar(lines []string, column_index int) {
+func printRegularChar(lines []string, column_index int) rune {
 	bannerChars, err := os.ReadFile("./banners/standard.txt")
 	if err != nil {
-		fmt.Println("Error reading standard.txt")
-		return
+		log.Fatal("error reading standard.txt")
 	}
 
 	bannerLines := piscine.Split(string(bannerChars), "\n")
@@ -113,9 +114,10 @@ func printRegularChar(lines []string, column_index int) {
 			tempIndex++
 		}
 		if i == 8 {
-			fmt.Print(string(rune(bannerLIndex + 32)))
-			return
+      return rune(bannerLIndex + 32)
 		}
 	}
   log.Fatal("Bad Input: ascii art characters to be reversed")
+  return 0
 }
+
