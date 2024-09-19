@@ -4,26 +4,31 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"os/exec"
-	"strconv"
 	"strings"
 
 	"github.com/atouba/piscine"
+	"golang.org/x/term"
 )
 
 // getTermWidth returns the width of the terminal in characters
 func getTermWidth() int {
-	cmd := exec.Command("stty", "size")
-	cmd.Stdin = os.Stdin
-	out, err := cmd.Output()
+	/* 	cmd := exec.Command("stty", "size")
+	   	cmd.Stdin = os.Stdin
+	   	out, err := cmd.Output()
 
+	   	if err != nil {
+	   		fmt.Println(err)
+	   		os.Exit(1)
+	   	}
+
+	   	outSplit := strings.Split(string(out), " ")
+	   	width, _ := strconv.Atoi(outSplit[1][:len(outSplit[1])-1]) */
+
+	width, _, err := term.GetSize(0)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println(err.Error())
 		os.Exit(1)
 	}
-
-	outSplit := strings.Split(string(out), " ")
-	width, _ := strconv.Atoi(outSplit[1][:len(outSplit[1])-1])
 	return width
 }
 
