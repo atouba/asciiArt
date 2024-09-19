@@ -27,46 +27,6 @@ func getTermWidth() int {
 	return width
 }
 
-// alignLCR justifies the output text left, center or right
-func AlignLCR(s, a string) string {
-	rows := strings.Split(s, "\n")
-	nuRows := []string{}
-	w := getTermWidth()
-
-	for _, row := range rows {
-		add0 := ""
-		add1 := ""
-
-		if a == "left" {
-			for i := 0; i < w-len(row); i++ {
-				add0 += " "
-			}
-			row = row + add0
-		}
-
-		if a == "center" {
-			for i := 0; i < (w-len(row))/2; i++ {
-				add0 += " "
-				add1 += " "
-			}
-			if (w-len(row))%2 != 0 {
-				add1 += " "
-			}
-			row = add0 + row + add1
-		}
-
-		if a == "right" {
-			for i := 0; i < w-len(row); i++ {
-				add0 += " "
-			}
-			row = add0 + row
-		}
-
-		nuRows = append(nuRows, row)
-	}
-	return strings.Join(nuRows, "\n")
-}
-
 // clearCarReturns returns the input string without carriage returns
 func ClearCarReturns(s string) (out string) {
 	for _, r := range s {
@@ -77,8 +37,7 @@ func ClearCarReturns(s string) (out string) {
 	return
 }
 
-// ---------------------------------------------------------------------------
-
+// AsciiArtLength returns the length of a line of a ascii art from the string str
 func AsciiArtLength(str string, f func(rune) bool, style string) int {
 	asciiArtChars, err := os.ReadFile("./banners/" + style + ".txt")
 	if err != nil {
@@ -88,7 +47,6 @@ func AsciiArtLength(str string, f func(rune) bool, style string) int {
 
 	count := 0
 
-	//lines := piscine.Split(string(asciiArtChars), "\n")
 	toLines := ClearCarReturns(string(asciiArtChars))
 	lines := piscine.Split(toLines, "\n")
 	for _, char := range str {
@@ -103,8 +61,13 @@ func AsciiArtLength(str string, f func(rune) bool, style string) int {
 	return count
 }
 
-// Spaces that will be added in alignement
+// SpacesCount tells how many spaces should be added in different places to the output for alignement
 func SpacesCount(str, alignFlag string, style string) (int, int, int) {
+
+	if alignFlag == "" {
+		return 0, 0, 0
+	}
+
 	var f1 func(rune) bool = func(c rune) bool { return true }
 	var f2 func(rune) bool = func(c rune) bool {
 		return c != ' '
@@ -121,7 +84,9 @@ func SpacesCount(str, alignFlag string, style string) (int, int, int) {
 	} else if alignFlag == "right" {
 		return subtract, 0, 0
 	} else if alignFlag == "center" {
-    if subtract % 2 == 0 { subtract-- }
+		if subtract%2 == 0 {
+			subtract--
+		}
 		return subtract / 2, subtract / 2, 0
 	} else if alignFlag == "justify" {
 		countWords := len(strings.Fields(str))
@@ -135,10 +100,9 @@ func SpacesCount(str, alignFlag string, style string) (int, int, int) {
 	return 0, 0, 0
 }
 
-// Returns n spaces string
+// SpacesString returns a string of n spaces
 func SpacesString(n int) string {
 	s := ""
-
 	for ; n > 0; n-- {
 		s += " "
 	}

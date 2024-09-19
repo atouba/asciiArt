@@ -79,6 +79,7 @@ var Colors = map[string]string{
 // }
 // 	return out
 
+// Index returns the index of a substring in a string
 func Index(str, subStr string) int {
 	iSubStr := piscine.Index(str, subStr)
 	if iSubStr == -1 {
@@ -87,6 +88,7 @@ func Index(str, subStr string) int {
 	return iSubStr
 }
 
+// CharInSubStr checks if the current character is part of the substring
 func CharInSubStr(str string, i int, subStr string) bool {
 	if subStr == "" {
 		return false

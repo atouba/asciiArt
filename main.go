@@ -6,7 +6,6 @@ import (
 	"log"
 	"os"
 
-	"01.gritlab.ax/git/atouba/ascii-art/alignement"
 	"01.gritlab.ax/git/atouba/ascii-art/basic"
 	"01.gritlab.ax/git/atouba/ascii-art/color"
 	"01.gritlab.ax/git/atouba/ascii-art/reverse"
@@ -38,8 +37,12 @@ func main() {
 
 	output := ""
 
-  if *outputFileName != "" && (*clr != "" || *reverseFileName != "" || *align != "") { log.Fatal("flags can't be combined")}
-  if *reverseFileName != "" && (*clr != "" || *align != "") { log.Fatal("flags can't be combined")}
+	if *outputFileName != "" && (*clr != "" || *reverseFileName != "" || *align != "") {
+		log.Fatal("flags can't be combined")
+	}
+	if *reverseFileName != "" && (*clr != "" || *align != "") {
+		log.Fatal("flags can't be combined")
+	}
 
 	if *reverseFileName != "" {
 		reverse.Reverse(*reverseFileName)
@@ -60,7 +63,6 @@ func main() {
 		}
 		output = basic.Basic(args[1], args[0], specifiedColor, "standard", *align)
 	}
-	output = alignement.AlignLCR(output, *align)
 
 	// Output flag can be empty, should error. This condition should check if it wasn't typed at all.
 	if *outputFileName != "" {

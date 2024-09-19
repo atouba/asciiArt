@@ -16,24 +16,27 @@ type inputContent struct {
 	subStr   string
 }
 
+// isJustSpacesBefore checks if there are only spaces in a string str before index i
 func isJustSpacesBefore(str string, i int) bool {
-  for ; i >= 0; i-- {
-    if str[i] != ' ' {
-      return false
-    }
-  }
-  return true
+	for ; i >= 0; i-- {
+		if str[i] != ' ' {
+			return false
+		}
+	}
+	return true
 }
 
+// isJustSpacesAfter checks if there are only spaces in a string str after index i
 func isJustSpacesAfter(str string, i int) bool {
-  for ; i < len(str); i++ {
-    if str[i] != ' ' {
-      return false
-    }
-  }
-  return true
+	for ; i < len(str); i++ {
+		if str[i] != ' ' {
+			return false
+		}
+	}
+	return true
 }
 
+// printBasic generates ascii art for the function Basic()
 func printBasic(text *inputContent, banner, alignFlag, colorFl string) string {
 	asciiArtChars, err := os.ReadFile("./banners/" + banner + ".txt")
 	if err != nil {
@@ -44,7 +47,7 @@ func printBasic(text *inputContent, banner, alignFlag, colorFl string) string {
 	out := ""
 
 	lines := piscine.Split(alignement.ClearCarReturns(string(asciiArtChars)), "\n")
-  inLineStr := text.str[text.i : text.i+text.newLineI]
+	inLineStr := text.str[text.i : text.i+text.newLineI]
 	leftSpacesLn, rightSpacesLn, insideSpacesLn := alignement.SpacesCount(inLineStr, alignFlag, banner)
 	for iLine := range 8 {
 		out += fmt.Sprint(alignement.SpacesString(leftSpacesLn))
@@ -52,8 +55,10 @@ func printBasic(text *inputContent, banner, alignFlag, colorFl string) string {
 			toAdd := lines[(int(char)-32)*8+iLine]
 			if char == ' ' {
 				if insideSpacesLn > 0 {
-          if isJustSpacesBefore(inLineStr, i) || isJustSpacesAfter(inLineStr, i) ||
-            (i+1 < len(inLineStr) && inLineStr[i+1] == ' ') { continue }
+					if isJustSpacesBefore(inLineStr, i) || isJustSpacesAfter(inLineStr, i) ||
+						(i+1 < len(inLineStr) && inLineStr[i+1] == ' ') {
+						continue
+					}
 					out += fmt.Sprint(alignement.SpacesString(insideSpacesLn))
 				} else {
 					out += fmt.Sprint(toAdd)
@@ -75,12 +80,14 @@ func printBasic(text *inputContent, banner, alignFlag, colorFl string) string {
 	return out
 }
 
+// Basic returns an ascii art text string from a string str according to possible flags and a chosen style
 func Basic(str, subStr, colorFl, banner, alignFlag string) string {
 	text := inputContent{}
 	text.str = str
 	text.subStr = subStr
 	text.i = 0
 	out := ""
+
 	for text.i < len(text.str) {
 		text.newLineI = color.Index(text.str[text.i:], "\\n")
 		if text.newLineI == 0 {
@@ -91,6 +98,7 @@ func Basic(str, subStr, colorFl, banner, alignFlag string) string {
 			text.i += text.newLineI
 		}
 	}
+
 	return out
 }
 
