@@ -87,15 +87,20 @@ func Basic(str, subStr, colorFl, banner, alignFlag string) string {
 	text.subStr = subStr
 	text.i = 0
 	out := ""
+	prevIsNL := true
 
 	for text.i < len(text.str) {
 		text.newLineI = color.Index(text.str[text.i:], "\\n")
 		if text.newLineI == 0 {
-			out += fmt.Sprintln()
+			if prevIsNL || text.i == len(str)-2 {
+				out += fmt.Sprintln()
+			}
 			text.i += 2
+			prevIsNL = true
 		} else {
 			out += printBasic(&text, banner, alignFlag, colorFl)
 			text.i += text.newLineI
+			prevIsNL = false
 		}
 	}
 
