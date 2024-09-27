@@ -154,7 +154,6 @@ func TestBasic(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 			result := basic.Basic(tc.input, "", "", "standard", "")
 			if tc.expected != result {
-				//output = basic.Basic(args[0], "", *clr, "standard", *align)
 				t.Errorf("\nInput was \"%s\"\nwant:\n%sgot:\n%s", tc.input, tc.expected, result)
 			}
 		})
