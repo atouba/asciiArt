@@ -2,7 +2,7 @@
 
 Ascii-art is a program that receives a string as an argument and prints it out as big ASCII art letters.
 
-How to use 
+#### How to use: 
 ```bash
 go run . "Hello"
 go run . "1Hello 2There"
