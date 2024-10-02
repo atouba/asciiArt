@@ -1,6 +1,6 @@
 ## ASCII Art
 
-Ascii-art is a program that receives a string as an argument and prints it out as big ASCII art letters.
+Ascii-art is a Go program that receives a string as an argument and prints it out as big ASCII art letters.
 
 #### How to use: 
 
