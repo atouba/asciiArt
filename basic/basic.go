@@ -22,21 +22,21 @@ func printBasic(inLineStr, banner string) string {
 		for _, char := range inLineStr {
 			toAdd := lines[(int(char)-32)*8+iLine]
 			if char == ' ' {
-        out += fmt.Sprint(toAdd)
+				out += fmt.Sprint(toAdd)
 			} else {
-        out += fmt.Sprint(toAdd)
+				out += fmt.Sprint(toAdd)
 			}
 		}
-		out += fmt.Sprint("\n")
+		out += fmt.Sprintln()
 	}
 
 	return out
 }
 
-// Basic returns an ascii art text string from a string str according to possible flags and a chosen style
+// Basic returns an ascii art text string from a string str
 func Basic(str, banner string) string {
-  var newLineI int
-  i := 0
+	var newLineI int
+	i := 0
 	out := ""
 	prevIsNL := true
 
@@ -49,7 +49,7 @@ func Basic(str, banner string) string {
 			i += 2
 			prevIsNL = true
 		} else {
-      out += printBasic(str[i: i+newLineI], banner)
+			out += printBasic(str[i:i+newLineI], banner)
 			i += newLineI
 			prevIsNL = false
 		}
@@ -59,19 +59,19 @@ func Basic(str, banner string) string {
 }
 
 func index(str, subStr string) int {
-  iSubStr := piscine.Index(str, subStr)
-  if iSubStr == -1 {
-    return len(str)
-  }
-  return iSubStr
+	iSubStr := piscine.Index(str, subStr)
+	if iSubStr == -1 {
+		return len(str)
+	}
+	return iSubStr
 }
 
 // clearCarReturns returns the input string without carriage returns
 func clearCarReturns(s string) (out string) {
-  for _, r := range s {
-    if r != 13 {
-      out += string(r)
-    }
-  }
-  return
+	for _, r := range s {
+		if r != 13 {
+			out += string(r)
+		}
+	}
+	return
 }
