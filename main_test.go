@@ -152,7 +152,7 @@ func TestBasic(t *testing.T) {
 	for _, tc := range testCases {
 		// using t.Run(string, func) produces more details in go test -v
 		t.Run(tc.name, func(t *testing.T) {
-			result := basic.Basic(tc.input, "", "", "standard", "")
+			result := basic.Basic(tc.input, "standard")
 			if tc.expected != result {
 				t.Errorf("\nInput was \"%s\"\nwant:\n%sgot:\n%s", tc.input, tc.expected, result)
 			}
