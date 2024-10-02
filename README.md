@@ -7,9 +7,9 @@ Ascii-art is a program that receives a string as an argument and prints it out a
 Command:
 ```bash
 go run . "Hello"
-````
+```
 Output:
-```bash
+```
  _    _          _   _          
 | |  | |        | | | |         
 | |__| |   ___  | | | |   ___   
@@ -18,14 +18,14 @@ Output:
 |_|  |_|  \___| |_| |_|  \___/  
                                 
                                 
-````
+```
 
 Command:
 ```bash
 go run . "Enjoy some\nASCII-art\!"
 ```
 Output:
-```bash
+```
  ______             _                                                         
 |  ____|           (_)                                                        
 | |__     _ __      _    ___    _   _         ___    ___    _ __ ___     ___  
@@ -42,4 +42,4 @@ Output:
 /_/    \_\ |_____/   \_____| |_____| |_____|           \__,_| |_|     \__| (_) 
                                                                                
                                                                                
-````
+```
