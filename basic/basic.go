@@ -17,10 +17,10 @@ func printBasic(inLineStr, banner string) string {
 
 	out := ""
 
-	lines := piscine.Split(clearCarReturns(string(asciiArtChars)), "\n")
-	for iLine := range 8 {
+	linesArt := piscine.Split(clearCarReturns(string(asciiArtChars)), "\n")
+	for indexLine := range 8 {
 		for _, char := range inLineStr {
-			toAdd := lines[(int(char)-32)*8+iLine]
+			toAdd := linesArt[(int(char)-32)*8+indexLine]
 			if char == ' ' {
 				out += fmt.Sprint(toAdd)
 			} else {
@@ -58,6 +58,8 @@ func Basic(str, banner string) string {
 	return out
 }
 
+// index returns index of subStr, if not found
+// returns the length of str
 func index(str, subStr string) int {
 	iSubStr := piscine.Index(str, subStr)
 	if iSubStr == -1 {
