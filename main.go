@@ -9,14 +9,18 @@ import (
 )
 
 func main() {
-	if len(os.Args) != 2 && len(os.Args) != 3 {
+	callBasic(os.Args[1:])
+}
+
+func callBasic(args []string) {
+	if len(args) != 1 && len(args) != 2 {
 		log.Fatal("Usage: go run . <text> or go run . <text> <style>")
-	} else if len(os.Args) == 3 {
-		if os.Args[2] != "standard" && os.Args[2] != "shadow" && os.Args[2] != "thinkertoy" {
+	} else if len(args) == 2 {
+		if args[1] != "standard" && args[1] != "shadow" && args[1] != "thinkertoy" {
 			log.Fatal("Invalid style name. Use \"standard\", \"shadow\" or \"thinkertoy\"")
 		}
-		fmt.Print(basic.Basic(os.Args[1], os.Args[2]))
+		fmt.Print(basic.Basic(args[0], args[1]))
 	} else {
-		fmt.Print(basic.Basic(os.Args[1], "standard"))
+		fmt.Print(basic.Basic(args[0], "standard"))
 	}
 }
