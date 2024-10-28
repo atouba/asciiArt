@@ -20,12 +20,7 @@ func printBasic(inLineStr, banner string) string {
 	linesArt := piscine.Split(clearCarReturns(string(asciiArtChars)), "\n")
 	for indexLine := range 8 {
 		for _, char := range inLineStr {
-			toAdd := linesArt[(int(char)-32)*8+indexLine]
-			if char == ' ' {
-				out += fmt.Sprint(toAdd)
-			} else {
-				out += fmt.Sprint(toAdd)
-			}
+			out += linesArt[(int(char)-32)*8+indexLine]
 		}
 		out += fmt.Sprintln()
 	}
